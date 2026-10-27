@@ -51,3 +51,13 @@ images: {
 - nếu gọi ở client thì dùng luôn Axios để gắn access token vào headers bằng interceptors (vẫn k đọc đc cookie -> nhờ server action lấy hộ)
 
 - refetchUser cần đc gọi lại ở nhiều nơi -> tách thành customHook
+
+## Logout
+
+- tránh khi chuyển trang refetch lại user -> đẩy thông tin cơ bản của user lên global state -> chỉ cần lấy lần đầu.
+- khi nào logout thì cập nhập state ấy trên global
+- nhanh nhất thì dùng Zustand, k cần bọc Provider. (Redux phải bọc, setup hơi phức tạp)
+
+- khi nào xử lý cookie thì nhờ server của Next lấy hộ
+- logout viết trực tiếp trên action vì k cần xử lý state
+- gọi ở dưới -> để hồi refetch

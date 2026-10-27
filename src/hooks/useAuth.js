@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios";
 import { usePathname } from "next/navigation";
+import { logoutAction } from "@/actions/auth.action";
 
 export const useAuth = () => {
     const [user, setUser] = useState({});
@@ -9,6 +10,10 @@ export const useAuth = () => {
 
     // khi chuyển trang sẽ fetch lại
     const pathname = usePathname();
+
+    const logout = async () => {
+        await logoutAction();
+    };
 
     useEffect(() => {
         const refetchUser = async () => {
@@ -26,5 +31,5 @@ export const useAuth = () => {
         refetchUser();
     }, [pathname]);
 
-    return { user, isLoading, isAuthenticated };
+    return { user, isLoading, isAuthenticated, logout };
 };

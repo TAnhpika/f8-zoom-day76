@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Spinner } from "./ui/spinner";
 
 export default function UserProfile() {
-    const { user, isLoading, isAuthenticated } = useAuth();
+    const { user, isLoading, isAuthenticated, logout } = useAuth();
 
     return (
         <>
@@ -18,7 +18,9 @@ export default function UserProfile() {
                 <>
                     <li>Hello: {user.fullName}</li>
                     <li>
-                        <Button className="bg-red-700">Logout</Button>
+                        <Button className="bg-red-700" onClick={logout}>
+                            Logout
+                        </Button>
                     </li>
                 </>
             ) : (

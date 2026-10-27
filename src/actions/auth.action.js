@@ -1,7 +1,9 @@
 "use server";
 
+import { axiosInstance } from "@/lib/axios";
 import { login } from "@/services/auth.service";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const loginAction = async (prevState, formData) => {
     const email = formData.get("email");
@@ -31,7 +33,15 @@ export const loginAction = async (prevState, formData) => {
     };
 };
 
-export const getAccessToken = async (params) => {
+export const logoutAction = async () => {
+    const cookieStore = await cookies();
+    axiosInstance.post("/auth/logout");
+    cookieStore.delete("accessToken");
+    cookieStore.delete("refreshToken");
+    redirect("/auth/login");
+};
+
+export const getAccessToken = async () => {
     const cookieStore = await cookies();
     return cookieStore.get("accessToken")?.value;
 };
