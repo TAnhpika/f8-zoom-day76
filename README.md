@@ -22,3 +22,12 @@ images: {
     ],
 },
 ```
+
+## Chia folder
+
+- constants: Tạo config constant để gọi api ngắn hơn
+- services: chứa các hàm gọi API
+- utils: hàm xử lý thông thường
+
+- (main): chỉ liên quan đến route 
+- constants, services, utils cùng cấp vs app
