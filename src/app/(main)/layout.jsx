@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
+import UserProfile from "@/components/UserProfile";
 import Link from "next/link";
 
 export default function MainLayout({ children }) {
@@ -21,11 +21,7 @@ export default function MainLayout({ children }) {
                     <li>
                         <Link href={"/cart"}>Cart (0)</Link>
                     </li>
-                    <li>
-                        <Link href={"/auth/login"}>
-                            <Button>Login</Button>
-                        </Link>
-                    </li>
+                    <UserProfile />
                 </ul>
             </header>
 

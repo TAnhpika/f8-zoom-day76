@@ -1,12 +1,28 @@
 "use client";
 
+import { loginAction } from "@/actions/auth.action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function LoginForm() {
+    const [state, action, pending] = useActionState(loginAction, {});
+    const router = useRouter();
+
+    useEffect(() => {
+        if (state.message) {
+            toast.success(state.message);
+        }
+
+        if (state.success) {
+            router.push("/")
+        }
+    }, [router, state]);
     return (
         <div>
-            <form action="">
+            <form action={action}>
                 <div className="mb-3">
                     <label htmlFor="">Email</label>
                     <Input type={"email"} name="email" placeholder="Email..." />
@@ -19,7 +35,7 @@ export default function LoginForm() {
                         placeholder="Password..."
                     />
                 </div>
-                <Button>Log in</Button>
+                <Button>{pending ? "Loading" : "Login"}</Button>
             </form>
         </div>
     );
