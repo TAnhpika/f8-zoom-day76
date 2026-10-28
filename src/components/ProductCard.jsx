@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import AddToCartButton from "./AddToCart";
 
 export default function ProductCard({ product, loading = "lazy" }) {
     return (
@@ -15,9 +15,7 @@ export default function ProductCard({ product, loading = "lazy" }) {
                 />
             </div>
             <h2 className="text-xl font-medium my-3">{product.name}</h2>
-            <Button className="bg-amber-700 text-white" size="lg">
-                Add to card
-            </Button>
+            <AddToCartButton productId={product._id} />
         </div>
     );
 }

@@ -1,3 +1,4 @@
+import CartCount from "@/components/CartCount";
 import { Toaster } from "@/components/ui/sonner";
 import UserProfile from "@/components/UserProfile";
 import Link from "next/link";
@@ -18,9 +19,7 @@ export default function MainLayout({ children }) {
                     <li>
                         <Link href={"/products"}>Products</Link>
                     </li>
-                    <li>
-                        <Link href={"/cart"}>Cart (0)</Link>
-                    </li>
+                    <CartCount />
                     <UserProfile />
                 </ul>
             </header>

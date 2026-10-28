@@ -31,6 +31,8 @@ images: {
 - services: chứa các hàm gọi API
 - utils: hàm xử lý thông thường
 
+- store: config zustand
+
 - (main): chỉ liên quan đến route
 - constants, services, utils cùng cấp vs app
 
@@ -61,3 +63,8 @@ images: {
 - khi nào xử lý cookie thì nhờ server của Next lấy hộ
 - logout viết trực tiếp trên action vì k cần xử lý state
 - gọi ở dưới -> để hồi refetch
+
+## AddToCard
+
+- đồng bộ global state -> dùng zustand (setup cực chill)
+
