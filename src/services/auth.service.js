@@ -14,3 +14,20 @@ export const login = async (loginData) => {
 
     return response.json();
 };
+
+export const requestRefreshToken = async (token) => {
+    const response = await fetch(`${CONFIG.SERVER_API}/auth/refresh`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            refreshToken: token,
+        }),
+    });
+    if (!response.ok) {
+        return false;
+    }
+
+    return response.json();
+};

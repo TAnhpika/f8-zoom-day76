@@ -68,3 +68,9 @@ images: {
 
 - đồng bộ global state -> dùng zustand (setup cực chill)
 
+- fetch vs axios: dùng fetch khi muốn cache, còn lại axios
+
+## RefreshToken
+- fetch nhiều lần -> cắm cờ Promise -> hàm chạy 1 lần
+
+- ở home sửa sai access token, khi qua product nav về login nhưng product là trang public

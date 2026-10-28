@@ -1,7 +1,7 @@
 "use server";
 
 import { axiosInstance } from "@/lib/axios";
-import { login } from "@/services/auth.service";
+import { login, requestRefreshToken } from "@/services/auth.service";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -44,4 +44,31 @@ export const logoutAction = async () => {
 export const getAccessToken = async () => {
     const cookieStore = await cookies();
     return cookieStore.get("accessToken")?.value;
+};
+
+export const makeRefreshToken = async () => {
+    console.log("makeRefreshToken");
+    
+    const cookieStore = await cookies();
+    const refreshToken = cookieStore.get("refreshToken")?.value;
+    if (!refreshToken) {
+        return false;
+    }
+
+    const newToken = await requestRefreshToken(refreshToken);
+    if (!newToken) {
+        return false;
+    }
+
+    cookieStore.set("accessToken", newToken.accessToken, {
+        httpOnly: true,
+        maxAge: 3600,
+    });
+
+    cookieStore.set("refreshToken", newToken.refreshToken, {
+        httpOnly: true,
+        maxAge: 86400 * 7,
+    });
+
+    return true;
 };
