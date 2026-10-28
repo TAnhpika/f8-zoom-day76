@@ -99,3 +99,6 @@ images: {
 - proxy -> set cookie (response header) -> layout -> page -> response (browser save)
 - mới vào page mà gọi api thì đọc token cũ (đợi lần F5 tiếp mới có token mới)
 - Khi set cookie bằng response của proxy -> next tự động đính kèm cookie mới vào request header
+
+## Protect route
+- đã login thì k vào page login nữa

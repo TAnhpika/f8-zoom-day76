@@ -1,7 +1,6 @@
 import { getAccessToken, makeRefreshToken } from "@/actions/auth.action";
 import { CONFIG } from "@/constants/config.constant";
 import axios from "axios";
-import { redirect } from "next/navigation";
 
 export const axiosInstance = axios.create({
     baseURL: CONFIG.SERVER_API,
@@ -36,10 +35,10 @@ axiosInstance.interceptors.response.use(
             return axiosInstance(error.config);
         } else if (
             window.location.pathname !== "/auth/login" &&
-            window.location.pathname !== "/profile/me" &&
-            window.location.pathname !== "/shopping-cart"
+            error.config.url !== "/profile/me" &&
+            !(error.config.url === "/shopping-cart" && error.config.method === "get")
         ) {
-            window.location.href("/auth/login");
+            window.location.href = "/auth/login";
         }
         return Promise.reject(error);
     },

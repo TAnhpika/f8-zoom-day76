@@ -12,13 +12,14 @@ export const addToCart = async (data) => {
 
 // get current count
 export const getCartCount = async () => {
-    const response = await fetchWrapper("/shopping-cart");
-    if (!response.ok) {
-        throw new Error(`Failed to load cart count: ${response.status}`);
+    try {
+        const response = await axiosInstance.get("/shopping-cart");
+        const { items } = response.data;
+        const count = items.reduce((acc, cur) => acc + cur.quantity, 0);
+        return count;
+    } catch {
+        return false;
     }
-
-    const { items } = await response.json();
-    return items.reduce((acc, item) => acc + item.quantity, 0);
 };
 
 export const getCartList = async () => {

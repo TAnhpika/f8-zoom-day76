@@ -55,6 +55,8 @@ export const makeRefreshToken = async () => {
 
     const newToken = await requestRefreshToken(refreshToken);
     if (!newToken) {
+        cookieStore.delete("accessToken");
+        cookieStore.delete("refreshToken");
         return false;
     }
 

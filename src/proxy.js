@@ -1,40 +1,51 @@
 import { getCurrentUser, requestRefreshToken } from "@/services/auth.service";
 import { NextResponse } from "next/server";
 
+const protectUrls = ["/cart"];
+const guestUrls = ["/auth/login"];
+
 export const proxy = async (request) => {
     const user = await getCurrentUser();
-    const response = NextResponse.next();
+    const { pathname } = request.nextUrl;
 
     if (!user) {
-        const refreshToken = request.cookies.get("refreshToken")?.value;
-        const newToken = refreshToken
-            ? await requestRefreshToken(refreshToken)
-            : false;
+        if (protectUrls.includes(pathname)) {
+            // Refresh token
+            const refreshToken = request.cookies.get("refreshToken")?.value;
+            const newToken = await requestRefreshToken(refreshToken);
 
-        if (!newToken) {
-            const redirectResponse = NextResponse.redirect(
-                new URL("/auth/login", request.nextUrl.origin),
-            );
-            redirectResponse.cookies.delete("accessToken");
-            redirectResponse.cookies.delete("refreshToken");
-            return redirectResponse;
+            if (!newToken) {
+                // xử lý khi refresh fail
+                const response = NextResponse.redirect(
+                    new URL("/auth/login", request.nextUrl.origin),
+                );
+                response.cookies.delete("accessToken");
+                response.cookies.delete("refreshToken");
+                return response;
+            }
+
+            // xử lý khi refresh thành công
+            const response = NextResponse.next();
+
+            response.cookies.set("accessToken", newToken.accessToken, {
+                httpOnly: true,
+                maxAge: 3600,
+            });
+
+            response.cookies.set("refreshToken", newToken.refreshToken, {
+                httpOnly: true,
+                maxAge: 86400 * 7,
+            });
+            return response;
         }
-
-        response.cookies.set("accessToken", newToken.accessToken, {
-            httpOnly: true,
-            maxAge: 3600,
-        });
-
-        response.cookies.set("refreshToken", newToken.refreshToken, {
-            httpOnly: true,
-            maxAge: 86400 * 7,
-        });
+    } else {
+        if (guestUrls.includes(pathname)) {
+            return NextResponse.redirect(new URL("/", request.nextUrl.origin));
+        }
     }
-
-    return response;
 };
 
 // url chịu ảnh hưởng bởi proxy
 export const config = {
-    matcher: ["/cart/:path*"],
+    matcher: ["/cart/:path*", "/auth/:path*"],
 };

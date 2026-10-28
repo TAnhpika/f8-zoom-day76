@@ -3,6 +3,7 @@ import {
     TableBody,
     TableCaption,
     TableCell,
+    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -39,6 +40,17 @@ export default function CartTable({ items, total }) {
                     </TableRow>
                 ))}
             </TableBody>
+            {total !== undefined && (
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={3}>Total</TableCell>
+                        <TableCell className="text-right">
+                            {total.toLocaleString()}
+                        </TableCell>
+                        <TableCell />
+                    </TableRow>
+                </TableFooter>
+            )}
         </Table>
     );
 }
