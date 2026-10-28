@@ -76,12 +76,26 @@ images: {
 
 - ở home sửa sai access token, khi qua product nav về login nhưng product là trang public
 
-## dumb - smart container
+## Get cart list
+
+### dumb - smart container
 
 - tách riêng phần hiển thị (UI) & logic
 
-## server-only
+### server-only
 
 - npm i server-only
 - import ở client sẽ lỗi
 - chỉ dùng trong folder app
+
+## Refresh access token khi refreshToken vẫn còn
+
+- access token hết hạn. từ home -> cart sẽ lỗi
+- hàm fetchWrapper gọi api refetch nhưng k lưu đc do đang gọi trang server component, dù gọi qua server action vẫn k lưu đc. 
+-> gọi từ client (axios refetch) / gọi từ middleware
+- nếu muốn có data fetching từ server thì cần thiết lập ở proxy (thành phần duy nhất trước khi vào page - proxy - layout - page) -> refetch ở proxy
+
+- nếu dùng trực tiếp cookies từ next/headers sẽ toang vì nó tuân theo chuẩn http: hết vòng đời request thì cookie mới được set
+- proxy -> set cookie (response header) -> layout -> page -> response (browser save)
+- mới vào page mà gọi api thì đọc token cũ (đợi lần F5 tiếp mới có token mới)
+- Khi set cookie bằng response của proxy -> next tự động đính kèm cookie mới vào request header

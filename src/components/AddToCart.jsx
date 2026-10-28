@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { addToCart, getCartCount } from "@/services/cart.service";
+import { addToCart } from "@/services/cart.service";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "./ui/spinner";

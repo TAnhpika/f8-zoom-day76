@@ -8,8 +8,12 @@ export const useCartStore = create((set) => {
             set({ count });
         },
         fetchCount: async () => {
-            const count = await getCartCount();
-            set({ count: count || 0 });
+            try {
+                const count = await getCartCount();
+                set({ count });
+            } catch (error) {
+                console.error("Failed to load cart quantity:", error);
+            }
         },
     };
 });

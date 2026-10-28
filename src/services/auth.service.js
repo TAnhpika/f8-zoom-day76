@@ -1,4 +1,5 @@
 import { CONFIG } from "@/constants/config.constant";
+import { fetchWrapper } from "@/utils/fetch";
 
 export const login = async (loginData) => {
     const response = await fetch(`${CONFIG.SERVER_API}/auth/login`, {
@@ -25,6 +26,16 @@ export const requestRefreshToken = async (token) => {
             refreshToken: token,
         }),
     });
+    if (!response.ok) {
+        return false;
+    }
+
+    return response.json();
+};
+
+export const getCurrentUser = async () => {
+    const response = await fetchWrapper("/profile/me");
+
     if (!response.ok) {
         return false;
     }
