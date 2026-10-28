@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
+import { fetchWrapper } from "@/utils/fetch";
 
 export const addToCart = async (data) => {
     try {
@@ -19,4 +20,9 @@ export const getCartCount = async () => {
     } catch {
         return false;
     }
+};
+
+export const getCartList = async () => {
+    const response = await fetchWrapper("/shopping-cart");
+    return response.json();
 };

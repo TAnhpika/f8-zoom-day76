@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Trash } from "lucide-react";
 
-export default function CartTable() {
+export default function CartTable({ items, total }) {
     return (
         <Table>
             <TableCaption>A list of your products.</TableCaption>
@@ -23,15 +23,21 @@ export default function CartTable() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow>
-                    <TableCell className="font-medium">INV001</TableCell>
-                    <TableCell>Paid</TableCell>
-                    <TableCell>Credit Card</TableCell>
-                    <TableCell className="text-right">$250.00</TableCell>
-                    <TableCell className="flex justify-center cursor-pointer hover:text-red-700">
-                        <Trash size={16} />
-                    </TableCell>
-                </TableRow>
+                {items.map((item) => (
+                    <TableRow key={item.productId}>
+                        <TableCell className="font-medium">
+                            {item.name}
+                        </TableCell>
+                        <TableCell>{item.price.toLocaleString()}</TableCell>
+                        <TableCell>{item.quantity}</TableCell>
+                        <TableCell className="text-right">
+                            {item.total.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="flex justify-center cursor-pointer hover:text-red-700">
+                            <Trash size={16} />
+                        </TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
     );

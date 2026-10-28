@@ -71,6 +71,17 @@ images: {
 - fetch vs axios: dùng fetch khi muốn cache, còn lại axios
 
 ## RefreshToken
+
 - fetch nhiều lần -> cắm cờ Promise -> hàm chạy 1 lần
 
 - ở home sửa sai access token, khi qua product nav về login nhưng product là trang public
+
+## dumb - smart container
+
+- tách riêng phần hiển thị (UI) & logic
+
+## server-only
+
+- npm i server-only
+- import ở client sẽ lỗi
+- chỉ dùng trong folder app
