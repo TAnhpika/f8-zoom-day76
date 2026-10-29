@@ -112,3 +112,7 @@ images: {
 
 - some() check có ít nhất 1 pt trong mảng thỏa đk hay k
 - protectUrls chứa /cart. pathname là /cart/123 -> includes! -> true
+
+Better-auth
+
+Luồng token-base: access & refresh token trả về response. còn lại để client tự xử lý (Next lưu token ở cookies của Next. React lưu ở local storage) -> dễ scale đa nền tảng
