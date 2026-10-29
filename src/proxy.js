@@ -1,7 +1,8 @@
 import { getCurrentUser, requestRefreshToken } from "@/services/auth.service";
 import { NextResponse } from "next/server";
 
-const protectUrls = ["/cart"];
+// top path
+const protectUrls = ["/cart", "/orders", "/accounts"];
 const guestUrls = ["/auth/login"];
 
 export const proxy = async (request) => {
@@ -9,7 +10,9 @@ export const proxy = async (request) => {
     const { pathname } = request.nextUrl;
 
     if (!user) {
-        if (protectUrls.includes(pathname)) {
+        // some() check có ít nhất 1 pt trong mảng thỏa đk hay k
+        // protectUrls chứa /cart. pathname là /cart/123 -> includes! -> true
+        if (protectUrls.some((url) => pathname.includes(url))) {
             // Refresh token
             const refreshToken = request.cookies.get("refreshToken")?.value;
             const newToken = await requestRefreshToken(refreshToken);
@@ -45,7 +48,14 @@ export const proxy = async (request) => {
     }
 };
 
-// url chịu ảnh hưởng bởi proxy
+// matcher: url chịu ảnh hưởng bởi proxy
 export const config = {
-    matcher: ["/cart/:path*", "/auth/:path*"],
+    matcher: [
+        // "/cart/:path*",
+        // "/auth/:path*",
+        // "/orders/:path*",
+        // "/accounts/:path*",
+        // match all url
+        "/((?!api|_next/static|_next/image|.*\\.png$).*)",
+    ],
 };

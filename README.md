@@ -91,8 +91,8 @@ images: {
 ## Refresh access token khi refreshToken vẫn còn
 
 - access token hết hạn. từ home -> cart sẽ lỗi
-- hàm fetchWrapper gọi api refetch nhưng k lưu đc do đang gọi trang server component, dù gọi qua server action vẫn k lưu đc. 
--> gọi từ client (axios refetch) / gọi từ middleware
+- hàm fetchWrapper gọi api refetch nhưng k lưu đc do đang gọi trang server component, dù gọi qua server action vẫn k lưu đc.
+  -> gọi từ client (axios refetch) / gọi từ middleware
 - nếu muốn có data fetching từ server thì cần thiết lập ở proxy (thành phần duy nhất trước khi vào page - proxy - layout - page) -> refetch ở proxy
 
 - nếu dùng trực tiếp cookies từ next/headers sẽ toang vì nó tuân theo chuẩn http: hết vòng đời request thì cookie mới được set
@@ -101,4 +101,14 @@ images: {
 - Khi set cookie bằng response của proxy -> next tự động đính kèm cookie mới vào request header
 
 ## Protect route
+
 - đã login thì k vào page login nữa
+
+- cần protect cả trang con của trang được protect (cart và cartDetail)
+
+```javascript
+    if (protectUrls.some((url) => pathname.includes(url)))
+```
+
+- some() check có ít nhất 1 pt trong mảng thỏa đk hay k
+- protectUrls chứa /cart. pathname là /cart/123 -> includes! -> true
